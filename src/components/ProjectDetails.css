@@ -1,0 +1,30 @@
+.detail-card ul {
+    font-family: "Andale Mono";
+    text-align: left;
+    padding-left: 0;
+    list-style: none;
+}
+
+.detail-card li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+.task {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    list-style: none;
+}
+
+.task.to-do {
+    background-color: #f0f0f0;
+}
+
+.task.in-progress {
+    background-color: #fff8dc;
+}
+
+.task.done {
+    background-color: #d4edda;
+}
