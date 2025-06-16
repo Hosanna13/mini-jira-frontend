@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ProjectList.css';
 import ProjectDetails from './ProjectDetails';
 import NewProjectForm from './NewProjectForm';
+import axios from 'axios';
 
 export default function ProjectList() {
-    const [projects, setProjects] = useState([
-        { id: 1, name: 'Marketing website', description: 'landing page build' },
-        { id: 2, name: 'iOS App', description: 'iOS version of the main app' },
-        { id: 3, name: 'Backend Refactor', description: 'Switching to microservices' }
-    ]);
-
+    const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
 
-    const addProject = (newProject) => {
-        setProjects([...projects, newProject]);
+    // Load projects from backend
+    const fetchProjects = () => {
+        axios.get('http://localhost:8080/api/projects')
+            .then(res => setProjects(res.data))
+            .catch(err => console.error("Failed to fetch projects: ", err));
     };
+
+    useEffect(() => {
+        fetchProjects();
+    }, []);
 
     return (
         <div className="project-list-wrapper">
             <h1>All Projects</h1>
 
-            <NewProjectForm onAdd={addProject} />
+            <NewProjectForm onProjectCreated={fetchProjects} />
 
             <div className="project-grid">
                 {projects.map((project) => (

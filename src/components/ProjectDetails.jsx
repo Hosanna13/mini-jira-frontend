@@ -1,66 +1,65 @@
-import React, {useState} from "react";
-import "./ProjectDetails.css";
-export default function ProjectDetails( {project, onClose}) {
-   // fake list
-    const [tasks, setTasks] = useState([
-        {id: 1, title:'Set up repo', status: "To Do"},
-        {id: 2, title: 'Write frontend layout', status: 'In Progress'},
-        {id: 3, title:'Connect Backend', status: 'To Do'}
-    ])
+.detail-card form {
+  margin-bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 1.2rem 1rem 1rem 1rem;
+  box-shadow: 0 2px 8px rgba(120, 120, 120, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
 
-    // New State for form input
-    const [title, setTitle] = useState("");
-    const [status, setStatus] = useState("To Do");
+.detail-card input,
+.detail-card textarea {
+  font-size: 1.05rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #f8fafc;
+  transition: border 0.2s;
+  font-family: inherit;
+  margin-bottom: 0.5rem;
+}
 
-    const handleAddTask = (e) => {
-        e.preventDefault();
-        if (!title.trim()) return;
+.detail-card input:focus,
+.detail-card textarea:focus {
+  border: 1.5px solid #007aff;
+  outline: none;
+}
 
-        const newTask = {
-            id: Date.now(),
-            title,
-            status,
-        };
+.detail-card button[type="submit"] {
+  background: #007aff;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+  margin-right: 0.5rem;
+}
 
-        setTasks([...tasks, newTask]);
-        setTitle("");
-        setStatus("To Do");
-    };
+.detail-card button[type="submit"]:hover {
+  background: #0052cc;
+}
 
+.detail-card button[type="button"] {
+  background: #e3e7ed;
+  color: #333;
+  border-radius: 10px;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+}
 
-    return (
-        <div className='detial-popup'>
-            <div className='detial-card'>
-                <button onClick={onClose}> x</button>
-                <h2> {project.name}</h2>
-                <p> {project.description}</p>
+.detail-card button[type="button"]:hover {
+  background: #cad1dc;
+}
 
-                <h3 style={ {marginTop: "1.5rem"}}> Tasks
-                </h3>
-                <ul>
-                    {tasks.map((task) => (
-                        <li key={task.id} className={`task ${task.status.replace(" ", "-").toLowerCase()}`}>
-                            <strong> {task.title}</strong> - <em> {task.status}</em>
-                        </li>
-                    ))}
-                </ul>
-
-                <form onSubmit={handleAddTask} className="task-form">
-                    <input
-                        type="text"
-                        placeholder="Task title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <select value = {status} onChange={(e) => setStatus((e.target.value))}>
-                        <option> To Do</option>
-                        <option> In Progress</option>
-                        <option> Done </option>
-                    </select>
-                    <button type="submit"> Add Task</button>
-                </form>
-            </div>
-        </div>
-    )
+.detail-card form button + button {
+  margin-left: 0.6rem;
 }

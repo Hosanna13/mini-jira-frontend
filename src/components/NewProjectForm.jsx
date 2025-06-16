@@ -1,41 +1,40 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-export default function NewProjectForm({ onAdd}) {
+export default function NewProjectForm({ onProjectCreated }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!name.trim() || !description.trim()) return;
-
-        const newProject = {
-            id: Date.now(),
-            name,
-            description,
-        };
-
-        onAdd(newProject);
-        setName("");
-        setDescription("");
+        try {
+            await axios.post('http://localhost:8080/api/projects', { name, description });
+            setName("");
+            setDescription("");
+            if (onProjectCreated) onProjectCreated();
+        } catch (err) {
+            alert("Failed to create project.");
+        }
     };
 
     return (
-        <form className = "new-project-form" on onSubmit={handleSubmit}>
-            <h2> Create New Project</h2>
+        <form className="new-project-form" onSubmit={handleSubmit}>
+            <h2>Create New Project</h2>
             <input
                 type="text"
                 placeholder="Project name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                />
+                required
+            />
             <textarea
                 placeholder="Description"
-                value = {description}
+                value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                required
             />
-            <button type="submit"> Add Project</button>
+            <button type="submit">Add Project</button>
         </form>
     );
-
 }
